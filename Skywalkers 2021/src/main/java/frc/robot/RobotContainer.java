@@ -14,7 +14,7 @@ import frc.robot.commands.AutonomousOne;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Outtake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.Transfer;
 
@@ -30,7 +30,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   private final Intake intake;
   private final Transfer transfer;
-  private final Outtake outtake;
+  private final Shooter shooter;
   private final Climber climber;
   private final Spinner spinner;
 
@@ -46,7 +46,7 @@ public class RobotContainer {
     drivetrain = new Drivetrain();
     intake = new Intake();
     transfer = new Transfer();
-    outtake = new Outtake();
+    shooter = new Shooter();
     climber = new Climber();
     spinner = new Spinner();
 

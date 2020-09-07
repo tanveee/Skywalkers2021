@@ -9,11 +9,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Outtake extends SubsystemBase {
+public class Shooter extends SubsystemBase {
   /**
    * Creates a new Outtake.
    */
-  public Outtake() {
+  public Shooter() {
 
   }
 
