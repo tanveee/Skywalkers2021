@@ -24,6 +24,7 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax leftMaster;
   CANSparkMax leftSlave;
   
+  
 
   public Drivetrain() {
 
@@ -82,37 +83,39 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  public void curvatureDrive(double speed, double rotation, boolean isQuickTurn){
+  public void curvatureDrive(double speed, boolean isQuickTurn){
 
     // Clamp inputs
-    speed = Math.max(-1., Math.min(speed, 1.));
+    double forwardVelocity = Constants.XBOX_LEFT_Y_AXIS * speed;
+    double rotation = Constants.XBOX_RIGHT_X_AXIS * speed;
+    forwardVelocity = Math.max(-1., Math.min(forwardVelocity, 1.));
     rotation = Math.max(-1., Math.min(rotation, 1.));
     
     // Calculate constant-curvature vs rate-of-change based on QuickTurn
-    double leftSpeed;
-    double rightSpeed;
+    double leftPower;
+    double rightPower;
 
     if (isQuickTurn){
 
         // Rate-of-change calculation
-        leftSpeed = speed + rotation;
-        rightSpeed = speed - rotation;
+        leftPower = forwardVelocity + rotation;
+        rightPower = forwardVelocity - rotation;
     } else {
 
         // Constant-curvature calculation
-        leftSpeed = speed + Math.abs(speed) * rotation;
-        rightSpeed = speed - Math.abs(speed) * rotation;
+        leftPower = forwardVelocity + Math.abs(forwardVelocity) * rotation;
+        rightPower = forwardVelocity - Math.abs(forwardVelocity) * rotation;
     }
 
     // Normalize wheel speeds
-    double maxMagnitude = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+    double maxMagnitude = Math.max(Math.abs(leftPower), Math.abs(rightPower));
     if (maxMagnitude > 1.0) {
-        leftSpeed /= maxMagnitude;
-        rightSpeed /= maxMagnitude;
+        leftPower /= maxMagnitude;
+        rightPower /= maxMagnitude;
     }
 
-    this.rightMaster.set(rightSpeed);
-    this.leftMaster.set(leftSpeed);
+    this.rightMaster.set(rightPower);
+    this.leftMaster.set(leftPower);
   }
 
 

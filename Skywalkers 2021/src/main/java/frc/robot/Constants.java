@@ -17,12 +17,17 @@ package frc.robot;
  */
 public final class Constants {
 
+	//CAN Drivetrain IDs
 	public static final int RIGHT_MASTER_ID = 0;
 	public static final int RIGHT_SLAVE_ID = 1;
 	public static final int LEFT_MASTER_ID = 2;
 	public static final int LEFT_SLAVE_ID = 3;
-	public static final int LEFT_Y_AXIS = 0;
+	
+	//XBOX Constants
 	public static final int XBOX_LEFT_Y_AXIS = 0;
 	public static final int XBOX_RIGHT_X_AXIS = 0;
 	public static final int XBOX_RIGHT_Y_AXIS = 0;
+	public static final int INTAKE_ID = 0;
+	public static final int RIGHT_TRIGGER = 0;
+	public static final double INTAKE_SPEED = 0;
 }
