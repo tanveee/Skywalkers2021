@@ -23,6 +23,8 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax rightSlave;
   CANSparkMax leftMaster;
   CANSparkMax leftSlave;
+
+  boolean isQuickTurn;
   
   
 
@@ -55,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void driveWithJoysticks(XboxController controller, double speed, double rotation, boolean isQuickTurn) {
+  public void driveWithJoysticks(XboxController controller, double speed) {
     // Figure out which drive method:
     // - ArcadeDrive
     // arcadeDrive(controller, speed);
@@ -83,11 +85,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  public void curvatureDrive(double speed, boolean isQuickTurn){
+  public void curvatureDrive(XboxController controller, double speed){
 
     // Clamp inputs
-    double forwardVelocity = Constants.XBOX_LEFT_Y_AXIS * speed;
-    double rotation = Constants.XBOX_RIGHT_X_AXIS * speed;
+    double forwardVelocity = controller.getRawAxis(Constants.XBOX_LEFT_Y_AXIS) * speed;
+    double rotation = controller.getRawAxis(Constants.XBOX_RIGHT_X_AXIS) * speed;
     forwardVelocity = Math.max(-1., Math.min(forwardVelocity, 1.));
     rotation = Math.max(-1., Math.min(rotation, 1.));
     
@@ -95,7 +97,7 @@ public class Drivetrain extends SubsystemBase {
     double leftPower;
     double rightPower;
 
-    if (isQuickTurn){
+    if (this.isQuickTurn){
 
         // Rate-of-change calculation
         leftPower = forwardVelocity + rotation;
@@ -117,6 +119,12 @@ public class Drivetrain extends SubsystemBase {
     this.rightMaster.set(rightPower);
     this.leftMaster.set(leftPower);
   }
+
+  public void quickTurn(){
+    this.isQuickTurn = !this.isQuickTurn;
+  }
+
+
 
 
   public void stop() {

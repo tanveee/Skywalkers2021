@@ -30,4 +30,5 @@ public final class Constants {
 	public static final int INTAKE_ID = 0;
 	public static final int RIGHT_TRIGGER = 0;
 	public static final double INTAKE_SPEED = 0;
+	public static final int JOYSTICK_NUMBER = 0;
 }

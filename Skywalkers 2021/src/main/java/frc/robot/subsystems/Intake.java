@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-
+  
   CANSparkMax intake;
 
   boolean on;
