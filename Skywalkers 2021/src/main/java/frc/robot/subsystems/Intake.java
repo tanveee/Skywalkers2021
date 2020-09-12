@@ -52,6 +52,10 @@ public class Intake extends SubsystemBase {
     intake.set(controller.getRawAxis(Constants.RIGHT_TRIGGER) * speed);
   }
 
+  public void verify(){
+    //Test out hardware
+  }
+
   public void stop() {
     intake.set(0);
   }

@@ -124,6 +124,10 @@ public class Drivetrain extends SubsystemBase {
     this.isQuickTurn = !this.isQuickTurn;
   }
 
+  public void verify(){
+    //Test out hardware
+  }
+
 
 
 
