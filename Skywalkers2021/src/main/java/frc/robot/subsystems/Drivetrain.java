@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
   public void driveWithJoysticks(XboxController controller, double speed) {
     // Figure out which drive method:
     // - ArcadeDrive
-    // arcadeDrive(controller, speed);
+    arcadeDrive(controller, speed);
     // - Tank drive
     // tankDrive(controller, speed);
     // - Curvature drive (aka Cheesy Drive)
