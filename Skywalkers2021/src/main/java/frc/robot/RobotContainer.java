@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousOne;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -31,7 +32,11 @@ public class RobotContainer {
 
 
   public static XboxController driverJoystick;
+
   private final Drivetrain drivetrain;
+  private final DriveWithJoysticks driveWithJoysticks;
+  private final ToggleQuickTurn toggleQuickTurn;
+
   private final Intake intake;
   private final Transfer transfer;
   private final Shooter shooter;
@@ -48,6 +53,13 @@ public class RobotContainer {
   public RobotContainer() {
 
     drivetrain = new Drivetrain();
+    driveWithJoysticks = new DriveWithJoysticks(drivetrain);
+    driveWithJoysticks.addRequirements(drivetrain);
+    drivetrain.setDefaultCommand(driveWithJoysticks);
+    toggleQuickTurn = new ToggleQuickTurn(drivetrain);
+    toggleQuickTurn.addRequirements(drivetrain);
+
+
     intake = new Intake();
     transfer = new Transfer();
     shooter = new Shooter();

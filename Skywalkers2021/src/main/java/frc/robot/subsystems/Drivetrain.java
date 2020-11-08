@@ -24,7 +24,7 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax leftMaster;
   CANSparkMax leftSlave;
 
-  boolean isQuickTurn;
+  boolean isQuickTurn = true;
   
   
 
@@ -48,7 +48,9 @@ public class Drivetrain extends SubsystemBase {
     leftSlave.follow(leftMaster);
 
 
-    rightMaster.setInverted(true);
+    leftMaster.setInverted(true);
+    rightMaster.setInverted(false);
+
 
   }
 
@@ -60,11 +62,11 @@ public class Drivetrain extends SubsystemBase {
   public void driveWithJoysticks(XboxController controller, double speed) {
     // Figure out which drive method:
     // - ArcadeDrive
-    arcadeDrive(controller, speed);
+    //arcadeDrive(controller, speed);
     // - Tank drive
-    // tankDrive(controller, speed);
+    //tankDrive(controller, speed);
     // - Curvature drive (aka Cheesy Drive)
-    // curvatureDrive(speed, rotation, isQuickTurn);
+    curvatureDrive(controller, speed);
 
   }
 
@@ -99,14 +101,18 @@ public class Drivetrain extends SubsystemBase {
 
     if (this.isQuickTurn){
 
+
         // Rate-of-change calculation
         leftPower = forwardVelocity + rotation;
         rightPower = forwardVelocity - rotation;
     } else {
 
+
         // Constant-curvature calculation
         leftPower = forwardVelocity + Math.abs(forwardVelocity) * rotation;
+        System.out.println("left power: " + leftPower);
         rightPower = forwardVelocity - Math.abs(forwardVelocity) * rotation;
+        System.out.println("right power: " + rightPower);
     }
 
     // Normalize wheel speeds
