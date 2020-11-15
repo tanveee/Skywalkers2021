@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.LiftTelescopingArm;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -40,7 +41,10 @@ public class RobotContainer {
   private final Intake intake;
   private final Transfer transfer;
   private final Shooter shooter;
+  
   private final Climber climber;
+  private final LiftTelescopingArm liftTelescopingArm;
+
   private final Spinner spinner;
 
   private final AutonomousOne autonomousOne;
@@ -63,7 +67,11 @@ public class RobotContainer {
     intake = new Intake();
     transfer = new Transfer();
     shooter = new Shooter();
+    
     climber = new Climber();
+    liftTelescopingArm = new LiftTelescopingArm(climber);
+    liftTelescopingArm.addRequirements(climber);
+    
     spinner = new Spinner();
 
     autonomousOne = new AutonomousOne();
@@ -86,6 +94,9 @@ public class RobotContainer {
 
     JoystickButton aButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     aButton.whenPressed(new ToggleQuickTurn(drivetrain));
+
+    JoystickButton xButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
+    xButton.whenPressed(new LiftTelescopingArm(climber));
     
   }
 
