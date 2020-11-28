@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
 
-public class LiftTelescopingArm extends CommandBase {
+public class LowerTelescopingArm extends CommandBase {
   /**
-   * Creates a new LiftTelescopingArm.
+   * Creates a new LowerTelescopingArm.
    */
   Climber climber;
 
-  public LiftTelescopingArm(Climber c) {
+  public LowerTelescopingArm(Climber c) {
     // Use addRequirements() here to declare subsystem dependencies.
     climber = c;
     addRequirements(climber);
@@ -31,12 +31,13 @@ public class LiftTelescopingArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.liftTelescopingArm(Constants.TELESCOPING_ARM_SPEED);
+    climber.lowerTelescopingArm(Constants.TELESCOPING_ARM_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    climber.stop();
   }
 
   // Returns true when the command should end.

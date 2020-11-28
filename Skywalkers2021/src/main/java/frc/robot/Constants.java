@@ -27,8 +27,7 @@ public final class Constants {
 	public static final int INTAKE_ID = 0;
 
 	//Climber IDs
-	public static final int TELESCOPING_ARM_ID = 5;
-	public static final int CLIMBER_ID = 0;
+	public static final int CLIMBER_ID = 5;
 	
 	//XBOX Constants
 	public static final int JOYSTICK_NUMBER = 1;
@@ -36,9 +35,11 @@ public final class Constants {
 	public static final int XBOX_RIGHT_X_AXIS = 4;
 	public static final int XBOX_RIGHT_Y_AXIS = 5;
 	public static final int RIGHT_TRIGGER = 3;
+	public static final int UP_BUTTON = 0;
+	public static final int DOWN_BUTTON = 0;
 
 	//SPEEDS
 	public static final double INTAKE_SPEED = 0;
 	public static final double DRIVETRAIN_SPEED = 0.1;
-	public static final double TELESCOPING_ARM_SPEED = 0.0;
+	public static final double TELESCOPING_ARM_SPEED = 0.5;
 }
