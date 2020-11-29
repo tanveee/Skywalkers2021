@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LiftTelescopingArm;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
@@ -94,9 +95,12 @@ public class RobotContainer {
 
     JoystickButton aButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     aButton.whenPressed(new ToggleQuickTurn(drivetrain));
-
+    
     JoystickButton xButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
     xButton.whenPressed(new LiftTelescopingArm(climber));
+
+    JoystickButton bButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
+    xButton.whenPressed(new IntakeBall(intake));
     
   }
 

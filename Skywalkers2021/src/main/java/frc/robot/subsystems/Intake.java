@@ -20,13 +20,23 @@ public class Intake extends SubsystemBase {
    */
   
   CANSparkMax intake;
+  CANSparkMax motion_left;
+  CANSparkMax motion_right;
 
   boolean on;
+  boolean up;
 
   public Intake() {
 
     on = false;
+    up = true;
     intake = new CANSparkMax(Constants.INTAKE_ID, MotorType.kBrushless);
+    // v if we're using motors
+    motion_left = new CANSparkMax(Constants.INTAKE_MOTION_LEFT_ID, MotorType.kBrushless);
+    motion_right = new CANSparkMax(Constants.INTAKE_MOTION_RIGHT_ID, MotorType.kBrushless);
+    motion_left.restoreFactoryDefaults();
+    motion_right.restoreFactoryDefaults();
+    motion_right.setInverted(true);
 
   }
 
@@ -38,25 +48,30 @@ public class Intake extends SubsystemBase {
   public void toggleIntake(double speed) {
     on = !on;
     if (on) {
-      stop();
-    } else {
       intake.set(speed);
+    } else {
+      intake.set(0);
     }
-  }
-
-  public void intake(double speed) {
-    intake.set(speed);
   }
 
   public void adjustIntake(XboxController controller, double speed) {
     intake.set(controller.getRawAxis(Constants.RIGHT_TRIGGER) * speed);
   }
 
-  public void verify(){
-    //Test out hardware
+  public void toggleArm(double speed){
+    if (up){
+      // For a certain time period, degrees, or rotations, lower the arm until it reaches the horizontal position
+      motion_right.set(-speed);
+      motion_left.set(-speed);
+    } else {
+      // For a certain time period, degrees, or rotations, raise the arm until it reaches the vertical position
+      motion_right.set(speed);
+      motion_left.set(speed);
+    }
+    up=!up;
   }
 
-  public void stop() {
-    intake.set(0);
+  public void verify(){
+    //Test out hardware
   }
 }
