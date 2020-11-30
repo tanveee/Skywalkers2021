@@ -9,16 +9,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 
 public class RaiseIntakeArm extends CommandBase {
   /**
    * Creates a new RaiseIntakeArm.
    */
-  IntakeMotion intakemotion;
+  Intake intakemotion;
 
-  public RaiseIntakeArm(IntakeMotion i) {
-    intakemotion=i
+  public RaiseIntakeArm(Intake i) {
+    intakemotion=i;
     addRequirements(intakemotion);
     // Use add Requirements() here to declare subsystem dependencies.
   }
@@ -30,8 +30,8 @@ public class RaiseIntakeArm extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(double speed) {
-    intakemotion.toggleArm(speed);
+  public void execute() {
+    intakemotion.toggleArm(Constants.ARM_SPEED);
   }
 
   // Called once the command ends or is interrupted.

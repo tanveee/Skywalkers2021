@@ -15,6 +15,7 @@ import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LiftTelescopingArm;
+import frc.robot.commands.RaiseIntakeArm;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -100,7 +101,10 @@ public class RobotContainer {
     xButton.whenPressed(new LiftTelescopingArm(climber));
 
     JoystickButton bButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
-    xButton.whenPressed(new IntakeBall(intake));
+    bButton.whenPressed(new IntakeBall(intake));
+
+    JoystickButton yButton = new JoystickButton(driverJoystick, XboxController.Button.kY.value);
+    yButton.whenPressed(new RaiseIntakeArm(intake));
     
   }
 
