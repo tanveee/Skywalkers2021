@@ -41,4 +41,8 @@ public final class Constants {
 	public static final double INTAKE_SPEED = 0;
 	public static final double DRIVETRAIN_SPEED = 0.1;
 	public static final double TELESCOPING_ARM_SPEED = 0.0;
+
+	//Hardware Constants
+	public static final double DRIVE_GEAR_RATIO = 10.75;
+	public static final double DRIVE_WHEEL_RADIUS = 3.0;
 }

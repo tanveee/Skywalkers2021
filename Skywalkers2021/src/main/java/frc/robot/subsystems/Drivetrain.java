@@ -7,10 +7,14 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -24,32 +28,43 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax leftMaster;
   CANSparkMax leftSlave;
 
+  CANEncoder rmEncoder;
+  CANEncoder rsEncoder;
+  CANEncoder lmEncoder;
+  CANEncoder lsEncoder;
+
+  int cpr;
+
   boolean isQuickTurn = true;
   
   
 
   public Drivetrain() {
-
+    
+    // Right Motors Init
     rightMaster = new CANSparkMax(Constants.RIGHT_MASTER_ID, MotorType.kBrushless);
     rightSlave = new CANSparkMax(Constants.RIGHT_SLAVE_ID, MotorType.kBrushless);
-
     rightMaster.restoreFactoryDefaults();
     rightSlave.restoreFactoryDefaults();
-
     rightSlave.follow(rightMaster);
 
-
+    // Left Motor Init
     leftMaster = new CANSparkMax(Constants.LEFT_MASTER_ID, MotorType.kBrushless);
     leftSlave = new CANSparkMax(Constants.LEFT_SLAVE_ID, MotorType.kBrushless);
-
     leftMaster.restoreFactoryDefaults();
     leftSlave.restoreFactoryDefaults();
-
     leftSlave.follow(leftMaster);
-
 
     leftMaster.setInverted(true);
     rightMaster.setInverted(false);
+
+    // Encoder Init
+    rmEncoder = rightMaster.getEncoder();
+    rsEncoder = rightSlave.getEncoder();
+    lmEncoder = leftMaster.getEncoder();
+    lsEncoder = leftSlave.getEncoder();
+
+    cpr = rmEncoder.getCountsPerRevolution();
 
 
   }
@@ -70,6 +85,8 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  //Drive Methods
+
   public void arcadeDrive(XboxController controller, double speed) {
     double yValue = controller.getRawAxis(Constants.XBOX_LEFT_Y_AXIS) * speed;
     double xValue = controller.getRawAxis(Constants.XBOX_RIGHT_X_AXIS) * speed;
@@ -77,6 +94,13 @@ public class Drivetrain extends SubsystemBase {
     double rightPower = yValue + xValue;
     this.rightMaster.set(rightPower);
     this.leftMaster.set(leftPower);
+  }
+
+  public void arcadeDrive(double useOutput, double fwd, double rot) {
+    double lefPower = fwd - rot;
+    double rightPower = fwd + rot;
+    this.rightMaster.set(rightPower);
+    this.leftMaster.set(lefPower);
   }
 
   public void tankDrive(XboxController controller, double speed) {
@@ -134,12 +158,42 @@ public class Drivetrain extends SubsystemBase {
     //Test out hardware
   }
 
-
-
-
   public void stop() {
     rightMaster.set(0);
     leftMaster.set(0);
-    
   }
+
+
+
+  public double getRightPos() { return (rmEncoder.getPosition() + rsEncoder.getPosition()) / 2; }
+
+  public double getLeftPos() { return (lmEncoder.getPosition() + lsEncoder.getPosition()) / 2; }
+
+  public double getRightVel() { return (rmEncoder.getVelocity() + rsEncoder.getVelocity()) / 2; }
+
+  public double getLeftVel() {  return (lmEncoder.getVelocity() + lsEncoder.getVelocity()) / 2; }
+
+  public double getRightDistance() {
+    return getRightPos() / cpr / Constants.DRIVE_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Constants.DRIVE_WHEEL_RADIUS);
+  }
+
+  public double getLeftDistance() {
+    return getLeftPos() / cpr / Constants.DRIVE_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Constants.DRIVE_WHEEL_RADIUS);
+  }
+
+  public double getRobotDistance() { return (getLeftDistance() + getRightDistance())/ 2; }
+
+  public DifferentialDriveWheelSpeeds getSpeeds() {
+    return new DifferentialDriveWheelSpeeds(
+      getLeftVel() / Constants.DRIVE_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Constants.DRIVE_WHEEL_RADIUS) / 60,
+      getRightVel() / Constants.DRIVE_GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(Constants.DRIVE_WHEEL_RADIUS) / 60
+    );
+  }
+
+  public double getRightPower() { return this.rightMaster.getAppliedOutput(); }
+
+  public double getLeftPower() { return this.leftMaster.getAppliedOutput(); }
+
+
+
 }
