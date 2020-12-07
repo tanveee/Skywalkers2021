@@ -8,19 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
-public class RaiseIntakeArm extends CommandBase {
+public class StopPneumatics extends CommandBase {
   /**
-   * Creates a new RaiseIntakeArm.
+   * Creates a new StopPneumatics.
    */
-  Intake intakemotion;
+  Intake stoppneumatics;
 
-  public RaiseIntakeArm(Intake i) {
-    intakemotion=i;
-    addRequirements(intakemotion);
-    // Use add Requirements() here to declare subsystem dependencies.
+  public StopPneumatics(Intake i) {
+    stoppneumatics = i;
+    addRequirements(stoppneumatics);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +30,7 @@ public class RaiseIntakeArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakemotion.toggleArm(Constants.ARM_SPEED);
+    stoppneumatics.stop();
   }
 
   // Called once the command ends or is interrupted.
