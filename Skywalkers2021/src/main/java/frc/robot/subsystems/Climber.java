@@ -31,11 +31,11 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void liftTelescopingArm(double speed) {
+  public void forwardTelescopingArm(double speed) {
     climber.set(speed);
   }
 
-  public void lowerTelescopingArm(double speed) {
+  public void reverseTelescopingArm(double speed) {
     climber.setInverted(false);
     climber.set(speed);
   }

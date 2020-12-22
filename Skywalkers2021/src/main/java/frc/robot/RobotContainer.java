@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.IntakeBall;
-import frc.robot.commands.LiftTelescopingArm;
-import frc.robot.commands.LowerTelescopingArm;
+import frc.robot.commands.ForwardTelescopingArm;
+import frc.robot.commands.ReverseTelescopingArm;
 import frc.robot.commands.StopPneumatics;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
@@ -45,11 +45,15 @@ public class RobotContainer {
 
 
   private final Intake intake;
+  private final TogglePneumatics togglePneumatics;
+  private final StopPneumatics stopPneumatics;
+  private final ToggleIntake toggleIntake;
+
   private final Shooter shooter;
   
   private final Climber climber;
-  private final LiftTelescopingArm liftTelescopingArm;
-  private final LowerTelescopingArm lowerTelescopingArm;
+  private final ForwardTelescopingArm forwardTelescopingArm;
+  private final ReverseTelescopingArm reverseTelescopingArm;
 
   private final Spinner spinner;
 
@@ -64,7 +68,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    //subsystems
+    // subsystems
     climber = new Climber();
     drivetrain = new Drivetrain();
     intake = new Intake();
@@ -72,19 +76,29 @@ public class RobotContainer {
     spinner = new Spinner();
     transfer = new Transfer();
 
-    //drivetrain commands
+    // drivetrain commands
     driveWithJoysticks = new DriveWithJoysticks(drivetrain);
     driveWithJoysticks.addRequirements(drivetrain);
     drivetrain.setDefaultCommand(driveWithJoysticks);
     toggleQuickTurn = new ToggleQuickTurn(drivetrain);
     toggleQuickTurn.addRequirements(drivetrain);
 
-    liftTelescopingArm = new LiftTelescopingArm(climber);
-    liftTelescopingArm.addRequirements(climber);
-    lowerTelescopingArm = new LowerTelescopingArm(climber);
-    lowerTelescopingArm.addRequirements(climber);
+    // climber commands
+    forwardTelescopingArm = new ForwardTelescopingArm(climber);
+    forwardTelescopingArm.addRequirements(climber);
+    reverseTelescopingArm = new ReverseTelescopingArm(climber);
+    reverseTelescopingArm.addRequirements(climber);
+
+    // intake commands
+    togglePneumatics = new TogglePneumatics(intake);
+    togglePneumatics.addRequirements(intake);
+    stopPneumatics = new StopPneumatics(intake);
+    stopPneumatics.addRequirements(intake);
+    toggleIntake = new ToggleIntake(intake);
+    toggleIntake.addRequirements(intake);
+
     
-    //autonomous
+    // autonomous
     autonomousOne = new AutonomousOne();
 
     driverJoystick = new XboxController(Constants.JOYSTICK_NUMBER);
@@ -103,20 +117,31 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    // Toggle Quick Turn with A
     JoystickButton aButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     aButton.whenPressed(new ToggleQuickTurn(drivetrain));
     
+    // Turn Climber Motor forward direction when X is pressed
     JoystickButton xButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-    xButton.whenPressed(new LiftTelescopingArm(climber));
+    xButton.whenPressed(new ForwardTelescopingArm(climber));
 
+    // Turn Climber Motor reverse direction when Right Bumper is pressed
     JoystickButton rightBumper = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-    rightBumper.whenPressed(new LowerTelescopingArm(climber));
+    rightBumper.whenPressed(new ReverseTelescopingArm(climber));
 
+    // Toggle Intake Pneumatics with B
     JoystickButton bButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
     bButton.whenPressed(new TogglePneumatics(intake));
 
+    // Toggle Intake Roller with Left Bumper
+    JoystickButton leftBumper = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
+    leftBumper.whenPressed(new ToggleIntake(intake));
+
+    // Stop Pneumatics with Y
     JoystickButton yButton = new JoystickButton(driverJoystick, XboxController.Button.kY.value);
     yButton.whenPressed(new StopPneumatics(intake));
+
+
     
   }
 

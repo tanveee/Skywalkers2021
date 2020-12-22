@@ -9,19 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Climber;
 
-public class IntakeBall extends CommandBase {
+public class ForwardTelescopingArm extends CommandBase {
   /**
-   * Creates a new IntakeBall.
+   * Creates a new LiftTelescopingArm.
    */
+  Climber climber;
 
-  Intake intake;
-
-  public IntakeBall(Intake i) {
+  public ForwardTelescopingArm(Climber c) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intake = i;
-    addRequirements(intake);
+    climber = c;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +31,7 @@ public class IntakeBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.toggleIntake(Constants.INTAKE_SPEED);
+    climber.forwardTelescopingArm(Constants.TELESCOPING_ARM_SPEED);
   }
 
   // Called once the command ends or is interrupted.
