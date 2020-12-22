@@ -25,7 +25,8 @@ public class Drivetrain extends SubsystemBase {
   CANSparkMax leftSlave;
 
   boolean isQuickTurn = true;
-  
+  /*t
+  */
   
 
   public Drivetrain() {

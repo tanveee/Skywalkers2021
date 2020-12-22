@@ -13,7 +13,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LiftTelescopingArm;
+import frc.robot.commands.StopPneumatics;
+import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.ToggleQuickTurn;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -38,8 +41,8 @@ public class RobotContainer {
   private final DriveWithJoysticks driveWithJoysticks;
   private final ToggleQuickTurn toggleQuickTurn;
 
-  private final Intake intake;
-  private final Transfer transfer;
+  private final Intake intakepneumatic;
+  private final Intake stoppneumatics;
   private final Shooter shooter;
   
   private final Climber climber;
@@ -64,10 +67,10 @@ public class RobotContainer {
     toggleQuickTurn.addRequirements(drivetrain);
 
 
-    intake = new Intake();
-    transfer = new Transfer();
+
     shooter = new Shooter();
-    
+    intakepneumatic = new Intake();
+    stoppneumatics = new Intake();
     climber = new Climber();
     liftTelescopingArm = new LiftTelescopingArm(climber);
     liftTelescopingArm.addRequirements(climber);
@@ -94,9 +97,15 @@ public class RobotContainer {
 
     JoystickButton aButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     aButton.whenPressed(new ToggleQuickTurn(drivetrain));
-
+    
     JoystickButton xButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
     xButton.whenPressed(new LiftTelescopingArm(climber));
+
+    JoystickButton bButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
+    bButton.whenPressed(new TogglePneumatics(intakepneumatic));
+
+    JoystickButton yButton = new JoystickButton(driverJoystick, XboxController.Button.kY.value);
+    yButton.whenPressed(new StopPneumatics(stoppneumatics));
     
   }
 
