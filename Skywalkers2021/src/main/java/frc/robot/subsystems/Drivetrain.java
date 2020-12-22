@@ -97,10 +97,10 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double useOutput, double fwd, double rot) {
-    double lefPower = fwd - rot;
+    double leftPower = fwd - rot;
     double rightPower = fwd + rot;
     this.rightMaster.set(rightPower);
-    this.leftMaster.set(lefPower);
+    this.leftMaster.set(leftPower);
   }
 
   public void tankDrive(XboxController controller, double speed) {
