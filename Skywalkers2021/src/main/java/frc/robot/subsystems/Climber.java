@@ -17,22 +17,13 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-
-  CANSparkMax telescopingArm;
   CANSparkMax climber; 
 
   public Climber() {
 
-    telescopingArm = new CANSparkMax(Constants.TELESCOPING_ARM_ID, MotorType.kBrushless);
     climber = new CANSparkMax(Constants.CLIMBER_ID, MotorType.kBrushless);
-
-    telescopingArm.restoreFactoryDefaults();
     climber.restoreFactoryDefaults();
-
-    telescopingArm.setInverted(true);
-    climber.setInverted(false);
-
-
+    climber.setInverted(true);
   }
 
   @Override
@@ -40,16 +31,20 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void liftArm(double speed) {
-    telescopingArm.set(speed);
-
+  public void liftTelescopingArm(double speed) {
+    climber.set(speed);
   }
 
-  public void climb(double speed) {
+  public void lowerTelescopingArm(double speed) {
+    climber.setInverted(false);
     climber.set(speed);
   }
 
   public void verify(){
     //Test out hardware
   }
+
+public void stop() {
+  climber.set(0);
+}
 }

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -15,6 +16,7 @@ import frc.robot.commands.AutonomousOne;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LiftTelescopingArm;
+import frc.robot.commands.LowerTelescopingArm;
 import frc.robot.commands.StopPneumatics;
 import frc.robot.commands.TogglePneumatics;
 import frc.robot.commands.ToggleQuickTurn;
@@ -47,6 +49,7 @@ public class RobotContainer {
   
   private final Climber climber;
   private final LiftTelescopingArm liftTelescopingArm;
+  private final LowerTelescopingArm lowerTelescopingArm;
 
   private final Spinner spinner;
 
@@ -59,7 +62,15 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
+    //subsystems
+    climber = new Climber();
     drivetrain = new Drivetrain();
+    intake = new Intake();
+    shooter = new Shooter();
+    spinner = new Spinner();
+    transfer = new Transfer();
+
+    //drivetrain commands
     driveWithJoysticks = new DriveWithJoysticks(drivetrain);
     driveWithJoysticks.addRequirements(drivetrain);
     drivetrain.setDefaultCommand(driveWithJoysticks);
@@ -67,16 +78,16 @@ public class RobotContainer {
     toggleQuickTurn.addRequirements(drivetrain);
 
 
-
     shooter = new Shooter();
     intakepneumatic = new Intake();
     stoppneumatics = new Intake();
-    climber = new Climber();
+
     liftTelescopingArm = new LiftTelescopingArm(climber);
     liftTelescopingArm.addRequirements(climber);
+    lowerTelescopingArm = new LowerTelescopingArm(climber);
+    lowerTelescopingArm.addRequirements(climber);
     
-    spinner = new Spinner();
-
+    //autonomous
     autonomousOne = new AutonomousOne();
 
     driverJoystick = new XboxController(Constants.JOYSTICK_NUMBER);
@@ -100,6 +111,9 @@ public class RobotContainer {
     
     JoystickButton xButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
     xButton.whenPressed(new LiftTelescopingArm(climber));
+
+    JoystickButton rightBumper = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+    yButton.whenPressed(new LowerTelescopingArm(climber));
 
     JoystickButton bButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
     bButton.whenPressed(new TogglePneumatics(intakepneumatic));
